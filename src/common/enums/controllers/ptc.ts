@@ -1,0 +1,16 @@
+export enum PTC_Controllers {
+  PTC_CATEGORY = 'categories',
+  PTC_STORY = 'stories',
+  PTC_CHAPTER = 'chapters',
+  PTC_UPLOAD = 'upload',
+  PTC_PURCHASE = 'purchases',
+  PTC_TRANSACTION = 'transactions',
+  PTC_USER_PROFILE = 'user-profiles',
+  PTC_REVIEW = 'story-reviews',
+  PTC_BOOKMARK = 'bookmarks',
+  PTC_LISTENING_HISTORY = 'listening-history',
+  PTC_COMMENT = 'comments',
+  PTC_BANNER = 'banners',
+  PTC_NOTIFICATION = 'notifications',
+  PTC_AUTH = 'auth',
+}

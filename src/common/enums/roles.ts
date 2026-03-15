@@ -1,0 +1,17 @@
+export enum Roles {
+  UniverseOwner = 'uni.owner',
+  UniverseViewer = 'uni.viewer',
+  OrganizationOwner = 'org.owner',
+  OrganizationManager = 'org.manager',
+  OrganizationSIMPartner = 'org.sim-partner',
+  OrganizationFarmer = 'org.farmer',
+  OrganizationCustomer = 'org.customer',
+  OrganizationAdmin = 'org.admin',
+  OrganizationPartner = 'org.partner',
+  OrganizationStaff = 'org.staff',
+  OrganizationSalesManager = 'org.sales-manager',
+  OrganizationSale = 'org.sale',
+  OrganizationTechnician = 'org.tech',
+  OrganizationTeamLeader = 'org.leader',
+  OrganizationAgent = 'org.agent',
+}

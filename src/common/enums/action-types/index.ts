@@ -1,0 +1,11 @@
+export enum SubscriptionType {
+  CANCEL = 'CANCEL',
+  UPGRADE = 'UPGRADE',
+  DOWNGRADE = 'DOWNGRADE',
+  SUSPEND = 'SUSPEND',
+  PAUSE = 'PAUSE',
+  UNPAUSE = 'UNPAUSE',
+  DESTROY = 'DESTROY',
+  RENEW = 'RENEW',
+  CREATE = 'CREATE',
+}

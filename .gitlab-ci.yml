@@ -1,0 +1,106 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build-dev-job:
+  stage: build
+  tags:
+    - xor-dev-builder-00
+  before_script:
+    - rm -r src/common
+    # - git rm -r --cached src/common
+    - git submodule add -f git@git.x-or.cloud:x-or/xor-common.git src/common
+    - cd src/common && git checkout feat/refactor-common
+    - cd ../..
+  script:
+    - npm install --production
+    - npm run build
+    - rm -rf /tmp/dist_srm
+    - rm -rf /tmp/package.json_srm
+    - rm -rf /tmp/ecosystem.config.js_srm
+    - cp -r dist /tmp/dist_srm
+    - cp package.json /tmp/package.json_srm
+    - cp ecosystem.config.js /tmp/ecosystem.config.js_srm
+
+  environment: development
+  only:
+    - dev
+  
+.deploy-job-service-template:
+  stage: deploy
+  environment: development
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - chmod 600 ${BUILDER_KEY}
+    - cp ${ENV} ./.env
+    - rm -rf dist
+    - rm -rf dist_srm
+    - scp -i ${BUILDER_KEY} -o StrictHostKeyChecking=no -r root@${BUILDER_ADDRESS}:/tmp/dist_srm .
+    - scp -i ${BUILDER_KEY} -o StrictHostKeyChecking=no root@${BUILDER_ADDRESS}:/tmp/package.json_srm .
+    - scp -i ${BUILDER_KEY} -o StrictHostKeyChecking=no root@${BUILDER_ADDRESS}:/tmp/ecosystem.config.js_srm .
+    - mv dist_srm dist
+    - mv package.json_srm package.json
+    - mv ecosystem.config.js_srm ecosystem.config.js
+    - npm install --production
+
+# SERVICE API
+deploy-job-dev-api-00:
+  extends:
+    - .deploy-job-service-template
+  tags:
+    - xor-dev-api-00
+  script:
+    - |
+      if pm2 list | grep -wq "srm-api"; then
+        pm2 stop "srm-api"
+        pm2 delete "srm-api"
+        echo "Task 'srm-api' stopped and deleted."
+      else
+        echo "Task 'srm-api' not found or not running."
+      fi
+    - pm2 start --only srm-api    
+
+# SERVICE WORKER
+deploy-job-dev-worker-00:
+  extends:
+    - .deploy-job-service-template
+  tags:
+    - xor-dev-wk-00
+  script:
+    - |
+      if pm2 list | grep -wq "srm-wk"; then
+        pm2 stop "srm-wk"
+        pm2 delete "srm-wk"
+        echo "Task 'srm-wk' stopped and deleted."
+      else
+        echo "Task 'srm-wk' not found or not running."
+      fi
+    - pm2 start --only srm-wk
+
+# SERVICE MICROSERVICE
+deploy-job-dev-ms-00:
+  extends:
+    - .deploy-job-service-template
+  tags:
+    - xor-dev-ms-00
+  script:
+    - |
+      if pm2 list | grep -wq "srm-ms"; then
+        pm2 stop "srm-ms"
+        pm2 delete "srm-ms"
+        echo "Task 'srm-ms' stopped and deleted."
+      else
+        echo "Task 'srm-ms' not found or not running."
+      fi
+    - pm2 start --only srm-ms
+    - |
+      if pm2 list | grep -wq "srm-ms-log"; then
+        pm2 stop "srm-ms-log"
+        pm2 delete "srm-ms-log"
+        echo "Task 'srm-ms-log' stopped and deleted."
+      else
+        echo "Task 'srm-ms-log' not found or not running."
+      fi
+    - pm2 start --only srm-ms-log

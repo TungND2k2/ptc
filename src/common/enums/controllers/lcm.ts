@@ -1,0 +1,17 @@
+export enum LCM_Controllers {
+  LCM_Partners = 'partners',
+  LCM_Customers = 'customers',
+  LCM_Contracts = 'contracts',
+  LCM_Payments = 'payments',
+  LCM_Activities = 'activities',
+  LCM_Results = 'results',
+  LCM_ImportData = 'import-data',
+  LCM_ExportData = 'export-data',
+  LCM_DataMigration = 'data-migration',
+  LCM_DataHandler = 'data-handler',
+  LCM_Transactions = 'transactions',
+  LCM_References = 'references',
+  LCM_Investigations = 'investigations',
+  LCM_Performance = 'performance',
+  LCM_Staff = 'staffs',
+}

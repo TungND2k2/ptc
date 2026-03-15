@@ -1,0 +1,15 @@
+export enum APIX_Controllers {
+  APIX_Service = 'services',
+  APIX_Connection = 'connections',
+  APIX_Route = 'routes',
+  APIX_Usage = 'usages',
+  APIX_Transaction = 'transactions',
+  APIX_Apx = 'apps',
+  APIX_Group = 'groups',
+  APIX_Permission = 'permissions',
+  APIX_Role = 'roles',
+  APIX_Configs = 'configs',
+  APIX_ExportFile = 'export-files',
+  APIX_Crypto = 'cryptos',
+  APIX_Ip = 'ips',
+}
