@@ -39,12 +39,14 @@ export class BaseController {
     const handler = req.user || new DataHandler();
     const filter = new FindManyFilter();
     filter.order = queries?.orderBy || {};
-    filter.paging.index = parseInt(queries?.pageIndex || Filter.PageIndex);
-    filter.paging.size = parseInt(queries?.pageSize || Filter.PageSize);
+    filter.paging.index = parseInt(queries?.pageIndex ?? queries?.page ?? Filter.PageIndex);
+    filter.paging.size = parseInt(queries?.pageSize ?? queries?.limit ?? Filter.PageSize);
 
     delete queries?.orderBy;
     delete queries?.pageIndex;
     delete queries?.pageSize;
+    delete queries?.page;
+    delete queries?.limit;
 
     filter.where = queries;
     if (this._service.findManyWithPaging) {
